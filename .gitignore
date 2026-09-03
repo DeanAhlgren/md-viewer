@@ -1,0 +1,6 @@
+# build outputs
+MDViewer
+makeicon
+Resources/AppIcon.icns
+*.o
+.DS_Store
