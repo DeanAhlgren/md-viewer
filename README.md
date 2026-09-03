@@ -30,7 +30,7 @@ Most Markdown viewers are Electron apps (100+ MB, slow to launch) or closed-sour
 Requires macOS 12+ and the Xcode Command Line Tools (`xcode-select --install`).
 
 ```sh
-git clone https://github.com/Ahlchemy/md-viewer.git
+git clone https://github.com/DeanAhlgren/md-viewer.git
 cd md-viewer
 ./build.sh
 ```
