@@ -3,7 +3,7 @@
 set -e
 cd "$(dirname "$0")"
 
-APP="$HOME/Applications/MD Viewer.app"
+APP="${MDVIEWER_APP_PATH:-$HOME/Applications/MD Viewer.app}"
 
 echo "Compiling…"
 clang -fobjc-arc -O2 main.m -o MDViewer \
@@ -24,7 +24,11 @@ if [ ! -f Resources/AppIcon.icns ]; then
 fi
 
 echo "Assembling bundle…"
-rm -rf "$APP"
+if [ -d "$APP" ]; then
+    backup="${APP%.app}.backup-$(date +%Y%m%d-%H%M%S).app"
+    mv "$APP" "$backup"
+    echo "Previous version: $backup"
+fi
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp MDViewer "$APP/Contents/MacOS/"
 cp Info.plist "$APP/Contents/"
@@ -32,7 +36,9 @@ cp Resources/template.html Resources/marked.min.js Resources/highlight.min.js Re
 
 codesign --force --sign - "$APP"
 
-echo "Registering with Launch Services…"
-/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
+if [ "${MDVIEWER_REGISTER:-1}" = 1 ]; then
+    echo "Registering with Launch Services…"
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
+fi
 
 echo "Done: $APP"

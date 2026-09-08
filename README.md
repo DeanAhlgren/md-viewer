@@ -2,7 +2,7 @@
 
 A tiny native macOS Markdown viewer. Double-click a `.md` file and it opens instantly with clean, GitHub-style formatting.
 
-Think "Preview.app, but for Markdown" — a viewer, not an editor.
+A lightweight native Markdown reader with an optional plain-text editor and live preview.
 
 ![MD Viewer rendering a sample document](docs/screenshot.png)
 
@@ -53,3 +53,15 @@ Bundled third-party libraries (both permissively licensed, see [THIRD-PARTY-LICE
 
 - [marked.js](https://github.com/markedjs/marked) — MIT
 - [highlight.js](https://github.com/highlightjs/highlight.js) — BSD-3-Clause
+
+## Editing (v1.1)
+
+Click **Edit** (⌘E) to edit Markdown in the same window. Toggle **Preview** to show or hide the live rendered view. Click **Save** or press ⌘S to save the original file, then **Done** to return to reading. Find (⌘F), undo/redo, cut, copy, and paste use the native macOS text editor. Smart quotes, smart dashes, and automatic text replacement are disabled.
+
+Unsaved changes are marked in the window and prompt on Done, Close, and Quit. Saves use atomic replacement and check the on-disk content first. If the file has changed externally or disappeared, your draft remains open; **Save a Copy…** preserves it without replacing the original. Saving a copy does not mark the original draft as saved. Existing text and original UTF-8/Latin-1 encoding are preserved; unsupported characters in Latin-1 prompt an error instead of losing text (Save a Copy writes UTF-8).
+
+**File → Open in Other Editor…** lets you choose another Mac app. External file changes continue to refresh automatically.
+
+Build with `./build.sh`. Set `MDVIEWER_APP_PATH` to build at another location. Installation retains the previous bundle as a timestamped backup. Quit and reopen MD Viewer after updating.
+
+Run `./tests/run.sh` from a logged-in macOS desktop session to check editing, native undo, preview rendering, file conflicts, encoding, and saving against temporary files.
